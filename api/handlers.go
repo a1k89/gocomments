@@ -24,7 +24,6 @@ func GetCommentsHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	cType := vars["content_type"]
 	data := m.GetComments(cType)
-	response := u.Message()
-	response["data"] = data
-	u.Response(w, response)
+	resp := u.Message(data)
+	u.Response(w, resp)
 }

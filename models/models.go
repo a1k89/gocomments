@@ -33,13 +33,13 @@ func (comment *Comment) Validate() (map[string]interface{}, bool) {
 	if err != nil {
 		validationErrors := err.(validator.ValidationErrors)
 		responseBody := map[string]string{"error": validationErrors.Error()}
-		resp := u.Message()
-		resp["error"] = responseBody
+		resp := u.Message(responseBody)
 
 		return resp, false
 	}
-	resp := u.Message()
-	return resp, true
+	result := map[string]interface{}{}
+
+	return result, true
 }
 
 func (comment *Comment) Create() map[string] interface{} {
@@ -48,10 +48,8 @@ func (comment *Comment) Create() map[string] interface{} {
 	}
 	comment.Uid = uuid.New()
 	GetDB().Create(comment)
-	response := u.Message()
-	response["data"] = comment
-
-	return response
+	resp := u.Message(comment)
+	return resp
 }
 
 func GetComments(cType string) []*Comment {
